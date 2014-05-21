@@ -27,6 +27,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", path: "shell-provision.sh"
 
   config.vm.provision "docker" do |d|
-    d.pull_images "albertogg/ruby-nginx:2.0"
+    d.pull_images "albertogg/ruby-nginx:2.2"
   end
 end
