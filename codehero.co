@@ -1,0 +1,34 @@
+server {
+  listen 80 default_server; # listen on http (port 80)
+  server_name _; # Using wildcard, after pointing DNS to new ip.
+
+  location / {
+    root /var/www/codehero-jekyll/current/_site;
+
+    # footer rewrites
+    rewrite ^/(authors.html$|authors/$) /authors permanent;
+    rewrite ^/(search.html$|search/$) /search permanent;
+    rewrite ^/(404.html$|404/$) /404 permanent;
+    rewrite ^/(sobre-nosotros.html$|sobre-nosotros/$) /sobre-nosotros permanent;
+    rewrite ^/(terminos-y-condiciones.html$|terminos-y-condiciones/$) /terminos-y-condiciones permanent;
+    rewrite ^/(politica-de-privacidad.html$|politica-de-privacidad/$) /politica-de-privacidad permanent;
+
+    # simplificar todos los rewrites (series, author y category) en uno.
+    rewrite ^/(series|author|category)/(.*)\.html*$ /$1/$2 permanent;
+    rewrite ^/(series|author|category)/(.*)/$ /$1/$2 permanent;
+
+    # Acomodar el url particular de /series/index
+    rewrite ^/series/$ /series/index last;
+    if ($request_uri = /series/index) {  return 301 /series/;  }
+
+    try_files $uri $uri/ $uri.html =404;
+
+    # error 404 page
+    error_page 404 /404.html; # Uncomment when this page is available.
+
+    access_log /var/www/logs/access.log;
+    error_log /var/www/logs/error.log;
+
+    expires 7d;
+  }
+}
