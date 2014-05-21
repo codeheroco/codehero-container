@@ -11,6 +11,7 @@
 # MISSING:
 # - Create a codehero user and group
 # - Copy the ssh-keys to the codehero user
+# - Create the folder where the codehero-jekyll will be served (/var/www/)
 # - Commands that will be applied when executed the container:
 #     This can be achieved with runit, mon or w/e, but we need to run:
 #       - Run nginx
@@ -20,6 +21,7 @@
 # - Copy the cron-script
 # - Copy the git hook to build with every push
 # - Expose the right ports for ssh and nginx (2222, 8080, 80)
+# - Configure Time Zone info if possible
 
 # Copy over the nginx configuration to container
 
