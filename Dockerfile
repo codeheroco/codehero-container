@@ -37,10 +37,13 @@ RUN useradd codehero -s /bin/bash -m -U &&\
     mv /tmp/ssh /home/codehero/.ssh &&\
     touch /home/codehero/.ssh/known_hosts &&\
     ssh-keyscan github.com >> /home/codehero/.ssh/known_hosts &&\
-    mkdir /var/www && cd /var/www &&\
-    chown -R codehero:codehero /var/www &&\
-    sudo -u codehero git clone git@github.com:albertogg/codehero-jekyll.git --depth 1 &&\
-    chown -R codehero:codehero /var/www/codehero-jekyll &&\
+    mkdir /var/www &&\
+     chown -R codehero:codehero /var/www &&\
+    cd /home/codehero &&\
+     sudo -u codehero git clone git@github.com:albertogg/codehero-jekyll.git --depth 1 &&\
+     chown -R codehero:codehero /home/codehero/codehero-jekyll &&\
+    cd /home/codehero/codehero-jekyll &&\
+     sudo -u codehero bundle install --deployment --without test --without development &&\
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old &&\
     mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf &&\
     ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
