@@ -3,7 +3,7 @@ server {
   server_name _; # Using wildcard, after pointing DNS to new ip.
 
   location / {
-    root /var/www/codehero-jekyll/current/_site;
+    root /var/www/codehero-jekyll;
 
     # footer rewrites
     rewrite ^/(authors.html$|authors/$) /authors permanent;
