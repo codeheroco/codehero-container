@@ -9,15 +9,12 @@
 
 ##
 # MISSING:
-# - Create a codehero user and group
-# - Copy the ssh-keys to the codehero user
-# - Create the folder where the codehero-jekyll will be served (/var/www/)
 # - Commands that will be applied when executed the container:
 #     This can be achieved with runit, mon or w/e, but we need to run:
 #       - Run nginx
 #       - Run cron
 #
-# - Clone over the codehero-jekyll repo to the container
+# - Ports, determine which ports need to be open
 # - Copy the cron-script
 # - Copy the git hook to build with every push
 # - Expose the right ports for ssh and nginx (2222, 8080, 80)
@@ -28,18 +25,32 @@
 FROM albertogg/ruby-nginx:2.2
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 
-ADD nginx.conf /etc/nginx/nginx.conf.new &&\
+# Remove this two lines after the codehero-jekyll is open sourced
+RUN mkdir /tmp/ssh
+ADD ssh /tmp/ssh
+
+ADD nginx.conf /etc/nginx/nginx.conf.new \
     codehero.co /etc/nginx/sites-available/codehero.co
+
+RUN useradd codehero -s /bin/bash -m -U &&\
+    mv /tmp/ssh /home/codehero/.ssh &&\
+    touch /home/codehero/.ssh/known_hosts &&\
+    ssh-keyscan github.com >> /home/codehero/.ssh/known_hosts &&\
+    mkdir /var/www && cd /var/www &&\
+    chown -R codehero:codehero /var/www &&\
+    sudo -u codehero git clone git@github.com:albertogg/codehero-jekyll.git --depth 1 &&\
+    chown -R codehero:codehero /var/www/codehero-jekyll
 
 # Apply the nginx configuration on the container including the codehero
 # server block
-RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old &&\
-    mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf &&\
-    ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
-    unlink /etc/nginx/sites-enabled/default
+# RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old &&\
+#     mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf &&\
+#     ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
+#     unlink /etc/nginx/sites-enabled/default
 
 # Expose port 80 in the container
-EXPOSE 80
+#EXPOSE 80
+#EXPOSE 2222
 
 # Add environment variables
 ENV LANGUAGE en_US.UTF-8
