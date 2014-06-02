@@ -29,8 +29,8 @@ MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 RUN mkdir /tmp/ssh
 ADD ssh /tmp/ssh
 
-ADD nginx.conf /etc/nginx/nginx.conf.new \
-    codehero.co /etc/nginx/sites-available/codehero.co
+ADD nginx.conf /etc/nginx/nginx.conf.new
+ADD codehero.co /etc/nginx/sites-available/codehero.co
 
 RUN useradd codehero -s /bin/bash -m -U &&\
     mv /tmp/ssh /home/codehero/.ssh &&\
@@ -39,14 +39,11 @@ RUN useradd codehero -s /bin/bash -m -U &&\
     mkdir /var/www && cd /var/www &&\
     chown -R codehero:codehero /var/www &&\
     sudo -u codehero git clone git@github.com:albertogg/codehero-jekyll.git --depth 1 &&\
-    chown -R codehero:codehero /var/www/codehero-jekyll
-
-# Apply the nginx configuration on the container including the codehero
-# server block
-# RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old &&\
-#     mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf &&\
-#     ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
-#     unlink /etc/nginx/sites-enabled/default
+    chown -R codehero:codehero /var/www/codehero-jekyll &&\
+    mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old &&\
+    mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf &&\
+    ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
+    unlink /etc/nginx/sites-enabled/default
 
 # Expose port 80 in the container
 #EXPOSE 80
