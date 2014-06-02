@@ -15,6 +15,7 @@
 #       - Run cron
 #
 # - Ports, determine which ports need to be open
+# - Build the blog directly after cloning it
 # - Copy the cron-script
 # - Copy the git hook to build with every push
 # - Expose the right ports for ssh and nginx (2222, 8080, 80)
