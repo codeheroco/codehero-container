@@ -30,6 +30,9 @@ MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 RUN mkdir /tmp/ssh
 ADD ssh /tmp/ssh
 
+ADD slack-message.sh slack-message.sh
+RUN (mkdir /tmp/mon && cd /tmp/mon && curl -L# https://github.com/visionmedia/mon/archive/master.tar.gz | tar zx --strip 1 && make install && rm -rf /tmp/mon)
+
 ADD nginx.conf /etc/nginx/nginx.conf.new
 ADD codehero.co /etc/nginx/sites-available/codehero.co
 
