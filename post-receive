@@ -12,12 +12,12 @@ PUBLIC_WWW=/var/www/codehero-jekyll
 
 BUNDLE="/usr/local/bin/bundle"
 
+echo "--------------> Cloning the repo"
 git clone $GIT_REPO $TMP_GIT_CLONE
-echo "==========  CODE DEPLOYED =========="
 cd $TMP_GIT_CLONE &&\
+  echo "--------------> Installing dependencies" &&\
   $BUNDLE install --path $VENDOR/vendor --deployment --without test --without development &&\
-  echo "==========  BUNDLED  ==========" &&\
   $BUNDLE exec jekyll build --source $TMP_GIT_CLONE --destination $PUBLIC_WWW
-echo "==========  APP DEPLOYED  =========="
+echo "--------------> Application Deployed to $PUBLIC_WWW"
 rm -Rf $TMP_GIT_CLONE
 exit
