@@ -1,0 +1,23 @@
+#! /usr/bin/env bash
+
+# -*- mode: sh -*-
+# vi: set ft=sh :
+
+set -e
+
+GIT_REPO=/home/codehero/codehero-repo.git
+VENDOR=/home/codehero
+TMP_GIT_CLONE=/home/codehero/tmp/repo
+PUBLIC_WWW=/var/www/codehero-jekll
+
+BUNDLE="/usr/local/bin/bundle"
+
+git clone $GIT_REPO $TMP_GIT_CLONE
+echo "==========  CODE DEPLOYED =========="
+cd $TMP_GIT_CLONE &&\
+  $BUNDLE install --path $VENDOR/vendor --deployment --without test --without development &&\
+  echo "==========  BUNDLED  ==========" &&\
+  $BUNDLE exec jekyll build --source $TMP_GIT_CLONE --destination $PUBLIC_WWW
+echo "==========  APP DEPLOYED  =========="
+rm -Rf $TMP_GIT_CLONE
+exit
