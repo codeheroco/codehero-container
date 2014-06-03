@@ -25,10 +25,6 @@
 FROM albertogg/ruby-nginx:2.2
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 
-# Remove this two lines after the codehero-jekyll is open sourced
-RUN mkdir /tmp/ssh
-ADD ssh /tmp/ssh
-
 ADD nginx.conf /etc/nginx/nginx.conf.new
 ADD codehero.co /etc/nginx/sites-available/codehero.co
 ADD post-receive /tmp/post-receive
@@ -36,9 +32,6 @@ ADD post-receive /tmp/post-receive
 RUN useradd codehero -s /bin/bash -m -U &&\
     echo "America/Caracas" | sudo tee /etc/timezone &&\
     sudo dpkg-reconfigure --frontend noninteractive tzdata &&\
-    mv /tmp/ssh /home/codehero/.ssh &&\
-    touch /home/codehero/.ssh/known_hosts &&\
-    ssh-keyscan github.com >> /home/codehero/.ssh/known_hosts &&\
     mkdir /var/www &&\
      chown -R codehero:codehero /var/www &&\
     cd /home/codehero &&\
