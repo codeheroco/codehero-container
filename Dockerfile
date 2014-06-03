@@ -19,7 +19,6 @@
 # - Copy the cron-script
 # - Copy the git hook to build with every push
 # - Expose the right ports for ssh and nginx (2222, 8080, 80)
-# - Configure Time Zone info if possible
 
 # Copy over the nginx configuration to container
 
@@ -34,6 +33,8 @@ ADD nginx.conf /etc/nginx/nginx.conf.new
 ADD codehero.co /etc/nginx/sites-available/codehero.co
 
 RUN useradd codehero -s /bin/bash -m -U &&\
+    echo "America/Caracas" | sudo tee /etc/timezone &&\
+    sudo dpkg-reconfigure --frontend noninteractive tzdata &&\
     mv /tmp/ssh /home/codehero/.ssh &&\
     touch /home/codehero/.ssh/known_hosts &&\
     ssh-keyscan github.com >> /home/codehero/.ssh/known_hosts &&\
