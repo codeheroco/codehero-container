@@ -8,7 +8,7 @@ set -e
 GIT_REPO=/home/codehero/codehero-repo.git
 VENDOR=/home/codehero
 TMP_GIT_CLONE=/home/codehero/tmp/repo
-PUBLIC_WWW=/var/www/codehero-jekll
+PUBLIC_WWW=/var/www/codehero-jekyll
 
 BUNDLE="/usr/local/bin/bundle"
 
