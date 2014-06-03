@@ -35,5 +35,4 @@ The license is MIT
   - We need to run, nginx, cron and any other service we need.
 - Cron script that will build the whole site everyday at 00:00.
   - We may need a separate script to build that will be called from the crontab
-- Git hook to build with every push.
 - The rest of the things are container related and are inside the Dockerfile

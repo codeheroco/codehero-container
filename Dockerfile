@@ -12,15 +12,14 @@
 # - Commands that will be applied when executed the container:
 #     This can be achieved with runit, mon or w/e, but we need to run:
 #       - Run nginx
+#       - Run sshd as a daemon
 #       - Run cron
 #
 # - Ports, determine which ports need to be open
-# - Build the blog directly after cloning it
 # - Copy the cron-script
-# - Copy the git hook to build with every push
 # - Expose the right ports for ssh and nginx (2222, 8080, 80)
-
-# Copy over the nginx configuration to container
+# - Add codehero user a password (passwd)
+# - Create nginx log folder (/var/www/log)
 
 FROM albertogg/ruby-nginx:2.2
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
