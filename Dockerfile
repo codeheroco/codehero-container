@@ -24,10 +24,6 @@
 FROM albertogg/ruby-nginx:2.2
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 
-RUN chmod +x slack-message.sh &&\
-    (mkdir /tmp/mon && cd /tmp/mon && curl -L# https://github.com/visionmedia/mon/archive/master.tar.gz | tar zx --strip 1 && make install && rm -rf /tmp/mon) &&\
-    mkdir processes processes/pids processes/logs
-
 ADD nginx.conf /etc/nginx/nginx.conf.new
 ADD codehero.co /etc/nginx/sites-available/codehero.co
 ADD post-receive /tmp/post-receive
@@ -51,7 +47,13 @@ RUN useradd codehero -s /bin/bash -m -U &&\
     mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf &&\
     ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
     unlink /etc/nginx/sites-enabled/default &&\
-    mkdir -p /var/run/sshd
+    mkdir -p /var/run/sshd &&\
+    chmod +x /home/codehero/slack-message.sh &&\
+    chmod +x /home/codehero/init-services.sh &&\
+    (mkdir /tmp/mon && cd /tmp/mon && curl -L# https://github.com/visionmedia/mon/archive/master.tar.gz | tar zx --strip 1 && make install && rm -rf /tmp/mon) &&\
+    mkdir -p /home/codehero/processes/pidslogs &&\
+    mkdir -p /home/codehero/processes/logs &&\
+    chown -R codehero:codehero /home/codehero
 
 # Expose port 80 in the container
 #EXPOSE 80
