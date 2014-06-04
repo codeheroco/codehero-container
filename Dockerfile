@@ -15,11 +15,7 @@
 #       - Run sshd as a daemon
 #       - Run cron
 #
-# - Ports, determine which ports need to be open
 # - Copy the cron-script
-# - Expose the right ports for ssh and nginx (2222, 8080, 80)
-# - Add codehero user a password (passwd)
-# - Create nginx log folder (/var/www/log)
 
 FROM albertogg/ruby-nginx:2.2
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
@@ -63,3 +59,5 @@ ENV LC_CTYPE en_US.UTF-8
 # Expose port 80 in the container
 EXPOSE 2222
 EXPOSE 80
+
+CMD ["/home/codehero/init-services.sh"]
