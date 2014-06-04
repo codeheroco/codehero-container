@@ -35,6 +35,8 @@ ADD slack-message.sh /home/codehero/slack-message.sh
 ADD init-services.sh /home/codehero/init-services.sh
 
 RUN useradd codehero -s /bin/bash -m -U &&\
+    usermod -a -G sudo codehero &&\
+    echo "codehero:qwerty" | chpasswd &&\
     echo "America/Caracas" | sudo tee /etc/timezone &&\
     sudo dpkg-reconfigure --frontend noninteractive tzdata &&\
     mkdir /var/www &&\
