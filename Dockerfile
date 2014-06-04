@@ -24,8 +24,6 @@
 FROM albertogg/ruby-nginx:2.2
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 
-ADD slack-message.sh slack-message.sh
-ADD init-services.sh init-services.sh
 RUN chmod +x slack-message.sh &&\
     (mkdir /tmp/mon && cd /tmp/mon && curl -L# https://github.com/visionmedia/mon/archive/master.tar.gz | tar zx --strip 1 && make install && rm -rf /tmp/mon) &&\
     mkdir processes processes/pids processes/logs
@@ -33,6 +31,8 @@ RUN chmod +x slack-message.sh &&\
 ADD nginx.conf /etc/nginx/nginx.conf.new
 ADD codehero.co /etc/nginx/sites-available/codehero.co
 ADD post-receive /tmp/post-receive
+ADD slack-message.sh /home/codehero/slack-message.sh
+ADD init-services.sh /home/codehero/init-services.sh
 
 RUN useradd codehero -s /bin/bash -m -U &&\
     echo "America/Caracas" | sudo tee /etc/timezone &&\
