@@ -55,12 +55,11 @@ RUN useradd codehero -s /bin/bash -m -U &&\
     mkdir -p /home/codehero/processes/logs &&\
     chown -R codehero:codehero /home/codehero
 
-# Expose port 80 in the container
-#EXPOSE 80
-
 # Add environment variables
 ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_CTYPE en_US.UTF-8
 
+# Expose port 80 in the container
 EXPOSE 2222
+EXPOSE 80
