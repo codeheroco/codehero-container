@@ -46,6 +46,7 @@ RUN useradd codehero -s /bin/bash -m -U &&\
      mv /tmp/post-receive /home/codehero/codehero-repo.git/hooks &&\
      chmod +x /home/codehero/codehero-repo.git/hooks/post-receive &&\
      chown -R codehero:codehero /home/codehero/codehero-repo.git &&\
+    mkdir -p /var/www/logs &&\
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old &&\
     mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf &&\
     ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
