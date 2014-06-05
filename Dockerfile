@@ -47,7 +47,7 @@ RUN useradd codehero -s /bin/bash -m -U &&\
     chmod +x /home/codehero/slack-message.sh &&\
     chmod +x /home/codehero/init-services.sh &&\
     (mkdir /tmp/mon && cd /tmp/mon && curl -L# https://github.com/visionmedia/mon/archive/master.tar.gz | tar zx --strip 1 && make install && rm -rf /tmp/mon) &&\
-    mkdir -p /home/codehero/processes/pidslogs &&\
+    mkdir -p /home/codehero/processes/pids &&\
     mkdir -p /home/codehero/processes/logs &&\
     chown -R codehero:codehero /home/codehero
 
