@@ -14,6 +14,12 @@ $ passwd codehero # add some password
 $ /usr/sbin/sshd -D
 ```
 
+Run the docker container in daemon mode (production mode)
+
+```bash
+$ docker run -d -p 2222:22 -p 80:80 albertogg/codehero-container
+```
+
 To push some code to the container
 
 - Add the remote first

@@ -9,17 +9,7 @@
 
 ##
 # MISSING:
-# - Commands that will be applied when executed the container:
-#     This can be achieved with runit, mon or w/e, but we need to run:
-#       - Run nginx
-#       - Run sshd as a daemon
-#       - Run cron
-#
-# - Ports, determine which ports need to be open
 # - Copy the cron-script
-# - Expose the right ports for ssh and nginx (2222, 8080, 80)
-# - Add codehero user a password (passwd)
-# - Create nginx log folder (/var/www/log)
 
 FROM albertogg/ruby-nginx:2.2
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
@@ -27,8 +17,11 @@ MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 ADD nginx.conf /etc/nginx/nginx.conf.new
 ADD codehero.co /etc/nginx/sites-available/codehero.co
 ADD post-receive /tmp/post-receive
+ADD runit /tmp/runit
 
 RUN useradd codehero -s /bin/bash -m -U &&\
+    usermod -a -G sudo codehero &&\
+    echo "codehero:qwerty" | chpasswd &&\
     echo "America/Caracas" | sudo tee /etc/timezone &&\
     sudo dpkg-reconfigure --frontend noninteractive tzdata &&\
     mkdir /var/www &&\
@@ -38,18 +31,28 @@ RUN useradd codehero -s /bin/bash -m -U &&\
      mv /tmp/post-receive /home/codehero/codehero-repo.git/hooks &&\
      chmod +x /home/codehero/codehero-repo.git/hooks/post-receive &&\
      chown -R codehero:codehero /home/codehero/codehero-repo.git &&\
+    mkdir -p /var/www/logs &&\
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old &&\
     mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf &&\
     ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
     unlink /etc/nginx/sites-enabled/default &&\
-    mkdir -p /var/run/sshd
-
-# Expose port 80 in the container
-#EXPOSE 80
+    mkdir -p /var/run/sshd &&\
+    mkdir -p /etc/service/cron &&\
+    mkdir -p /etc/service/sshd &&\
+    mkdir -p /etc/service/nginx &&\
+    mv /tmp/runit/cron /etc/service/cron/run &&\
+    mv /tmp/runit/sshd /etc/service/sshd/run &&\
+    mv /tmp/runit/nginx /etc/service/nginx/run &&\
+    chown -R root.root /etc/service/ &&\
+    chmod -R 755 /etc/service/
 
 # Add environment variables
 ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_CTYPE en_US.UTF-8
 
-EXPOSE 2222
+# Expose port 80 in the container
+EXPOSE 22
+EXPOSE 80
+
+ENTRYPOINT ["/usr/sbin/runsvdir-start"]
