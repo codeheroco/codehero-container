@@ -23,8 +23,6 @@ MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 ADD nginx.conf /etc/nginx/nginx.conf.new
 ADD codehero.co /etc/nginx/sites-available/codehero.co
 ADD post-receive /tmp/post-receive
-ADD slack-message.sh /home/codehero/slack-message.sh
-ADD init-services.sh /home/codehero/init-services.sh
 
 RUN useradd codehero -s /bin/bash -m -U &&\
     usermod -a -G sudo codehero &&\
@@ -44,12 +42,6 @@ RUN useradd codehero -s /bin/bash -m -U &&\
     ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
     unlink /etc/nginx/sites-enabled/default &&\
     mkdir -p /var/run/sshd &&\
-    chmod +x /home/codehero/slack-message.sh &&\
-    chmod +x /home/codehero/init-services.sh &&\
-    (mkdir /tmp/mon && cd /tmp/mon && curl -L# https://github.com/visionmedia/mon/archive/master.tar.gz | tar zx --strip 1 && make install && rm -rf /tmp/mon) &&\
-    mkdir -p /home/codehero/processes/pids &&\
-    mkdir -p /home/codehero/processes/logs &&\
-    chown -R codehero:codehero /home/codehero
 
 # Add environment variables
 ENV LANGUAGE en_US.UTF-8
@@ -60,4 +52,3 @@ ENV LC_CTYPE en_US.UTF-8
 EXPOSE 2222
 EXPOSE 80
 
-CMD ["/home/codehero/init-services.sh"]
