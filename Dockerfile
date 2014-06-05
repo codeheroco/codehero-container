@@ -9,12 +9,6 @@
 
 ##
 # MISSING:
-# - Commands that will be applied when executed the container:
-#     This can be achieved with runit, mon or w/e, but we need to run:
-#       - Run nginx
-#       - Run sshd as a daemon
-#       - Run cron
-#
 # - Copy the cron-script
 
 FROM albertogg/ruby-nginx:2.2
@@ -23,6 +17,7 @@ MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 ADD nginx.conf /etc/nginx/nginx.conf.new
 ADD codehero.co /etc/nginx/sites-available/codehero.co
 ADD post-receive /tmp/post-receive
+ADD runit /tmp/runit
 
 RUN useradd codehero -s /bin/bash -m -U &&\
     usermod -a -G sudo codehero &&\
@@ -42,6 +37,14 @@ RUN useradd codehero -s /bin/bash -m -U &&\
     ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
     unlink /etc/nginx/sites-enabled/default &&\
     mkdir -p /var/run/sshd &&\
+    mkdir -p /etc/service/cron &&\
+    mkdir -p /etc/service/sshd &&\
+    mkdir -p /etc/service/nginx &&\
+    mv /tmp/runit/cron /etc/service/cron/run &&\
+    mv /tmp/runit/sshd /etc/service/sshd/run &&\
+    mv /tmp/runit/nginx /etc/service/nginx/run &&\
+    chown -R root.root /etc/service/ &&\
+    chmod -R 755 /etc/service/
 
 # Add environment variables
 ENV LANGUAGE en_US.UTF-8
@@ -49,6 +52,7 @@ ENV LANG en_US.UTF-8
 ENV LC_CTYPE en_US.UTF-8
 
 # Expose port 80 in the container
-EXPOSE 2222
+EXPOSE 22
 EXPOSE 80
 
+ENTRYPOINT ["/usr/sbin/runsvdir-start"]
