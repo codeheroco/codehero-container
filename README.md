@@ -2,8 +2,6 @@
 
 This is the Codehero container
 
-**Container is very unstable and may not run.**
-
 ## Run the container locally
 
 We are missing the **nginx port** and the script to auto run everything
