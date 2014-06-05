@@ -55,4 +55,4 @@ ENV LC_CTYPE en_US.UTF-8
 EXPOSE 22
 EXPOSE 80
 
-ENTRYPOINT ["/usr/sbin/runsvdir-start"]
+CMD ["/usr/sbin/runsvdir-start"]
