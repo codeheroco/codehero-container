@@ -17,6 +17,8 @@ MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 ADD nginx.conf /etc/nginx/nginx.conf.new
 ADD codehero.co /etc/nginx/sites-available/codehero.co
 ADD post-receive /tmp/post-receive
+ADD build-script.sh /home/codehero/build-script.sh
+ADD crontab-script.sh /home/codehero/crontab-script.sh
 ADD runit /tmp/runit
 
 RUN useradd codehero -s /bin/bash -m -U &&\
@@ -44,7 +46,11 @@ RUN useradd codehero -s /bin/bash -m -U &&\
     mv /tmp/runit/sshd /etc/service/sshd/run &&\
     mv /tmp/runit/nginx /etc/service/nginx/run &&\
     chown -R root.root /etc/service/ &&\
-    chmod -R 755 /etc/service/
+    chmod -R 755 /etc/service/ &&\
+    touch /home/codehero/build.log &&\
+    chown -R codehero:codehero /home/codehero &&\
+    chmod +x /home/codehero/build-script.sh &&\
+    crontab -u codehero /home/codehero/crontab-script.sh
 
 # Add environment variables
 ENV LANGUAGE en_US.UTF-8
