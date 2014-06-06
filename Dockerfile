@@ -7,10 +7,6 @@
 # Docker version 0.11.0
 #
 
-##
-# MISSING:
-# - Copy the cron-script
-
 FROM albertogg/ruby-nginx:2.2
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 

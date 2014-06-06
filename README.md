@@ -29,8 +29,3 @@ $ git push deploy master
 ## License MIT
 
 The license is MIT
-
-## ToDo
-
-- Cron script that will build the whole site everyday at 00:00.
-  - We may need a separate script to build that will be called from the crontab
