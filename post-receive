@@ -12,6 +12,10 @@ PUBLIC_WWW=/var/www/codehero-jekyll
 
 BUNDLE="/usr/local/bin/bundle"
 
+if [ -d  "$TMP_GIT_CLONE" ]; then
+  echo "--------------> Removing old tmp builds"
+  rm -Rf $TMP_GIT_CLONE
+fi
 echo "--------------> Cloning the repo"
 git clone $GIT_REPO $TMP_GIT_CLONE
 cd $TMP_GIT_CLONE &&\
@@ -19,5 +23,4 @@ cd $TMP_GIT_CLONE &&\
   $BUNDLE install --path $VENDOR/vendor --deployment --without test --without development &&\
   $BUNDLE exec jekyll build --source $TMP_GIT_CLONE --destination $PUBLIC_WWW
 echo "--------------> Application Deployed to $PUBLIC_WWW"
-rm -Rf $TMP_GIT_CLONE
 exit
