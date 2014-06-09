@@ -4,10 +4,10 @@
 ##
 # Codehero container.
 #
-# Docker version 0.11.0
+# Docker version 1.0.0
 #
 
-FROM albertogg/ruby-nginx:2.2
+FROM albertogg/ruby-nginx:2.2.1
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 
 ADD nginx.conf /etc/nginx/nginx.conf.new
