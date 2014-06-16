@@ -6,6 +6,7 @@ server {
     root /var/www/codehero-jekyll;
 
     # footer rewrites
+    rewrite ^/(feed$|feed/$) /feed.xml permanent;
     rewrite ^/(authors.html$|authors/$) /authors permanent;
     rewrite ^/(search.html$|search/$) /search permanent;
     rewrite ^/(404.html$|404/$) /404 permanent;
