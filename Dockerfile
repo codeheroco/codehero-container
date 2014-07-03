@@ -10,7 +10,6 @@
 FROM albertogg/ruby-nginx:2.2.1
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 
-ADD post-receive /tmp/post-receive
 ADD nginx /tmp/nginx
 ADD runit /tmp/runit
 ADD build-script.sh /home/codehero/build-script.sh
@@ -21,14 +20,6 @@ RUN useradd codehero -s /bin/bash -m -U &&\
     echo "codehero:qwerty" | chpasswd &&\
     echo "America/Caracas" | sudo tee /etc/timezone &&\
     sudo dpkg-reconfigure --frontend noninteractive tzdata &&\
-    mkdir /var/www &&\
-     chown -R codehero:codehero /var/www &&\
-    cd /home/codehero &&\
-     mkdir codehero-repo.git && cd codehero-repo.git && git init --bare &&\
-     mv /tmp/post-receive /home/codehero/codehero-repo.git/hooks &&\
-     chmod +x /home/codehero/codehero-repo.git/hooks/post-receive &&\
-     chown -R codehero:codehero /home/codehero/codehero-repo.git &&\
-    mkdir -p /var/www/logs &&\
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old &&\
     mv /tmp/nginx/nginx.conf /etc/nginx/nginx.conf &&\
     mv /tmp/nginx/codehero.co /etc/nginx/sites-available/codehero.co &&\
@@ -43,7 +34,6 @@ RUN useradd codehero -s /bin/bash -m -U &&\
     mv /tmp/runit/nginx /etc/service/nginx/run &&\
     chown -R root.root /etc/service/ &&\
     chmod -R 755 /etc/service/ &&\
-    touch /home/codehero/build.log &&\
     chown -R codehero:codehero /home/codehero &&\
     chmod +x /home/codehero/build-script.sh &&\
     crontab -u codehero /home/codehero/crontab-script.sh
