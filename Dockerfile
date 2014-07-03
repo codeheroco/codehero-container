@@ -18,7 +18,7 @@ ADD crontab-script.sh /home/codehero/crontab-script.sh
 RUN useradd codehero -u 1040 -s /bin/bash -m -U &&\
     usermod -a -G sudo codehero &&\
     groupmod -g 1040 codehero &&\
-    echo "codehero:qwerty" | chpasswd &&\
+    echo "codehero:supersecret" | chpasswd &&\
     echo "America/Caracas" | sudo tee /etc/timezone &&\
     sudo dpkg-reconfigure --frontend noninteractive tzdata &&\
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old &&\
