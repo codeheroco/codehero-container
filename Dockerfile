@@ -10,12 +10,11 @@
 FROM albertogg/ruby-nginx:2.2.1
 MAINTAINER Alberto Grespan "https://twitter.com/albertogg"
 
-ADD nginx.conf /etc/nginx/nginx.conf.new
-ADD codehero.co /etc/nginx/sites-available/codehero.co
 ADD post-receive /tmp/post-receive
+ADD nginx /tmp/nginx
+ADD runit /tmp/runit
 ADD build-script.sh /home/codehero/build-script.sh
 ADD crontab-script.sh /home/codehero/crontab-script.sh
-ADD runit /tmp/runit
 
 RUN useradd codehero -s /bin/bash -m -U &&\
     usermod -a -G sudo codehero &&\
@@ -31,7 +30,8 @@ RUN useradd codehero -s /bin/bash -m -U &&\
      chown -R codehero:codehero /home/codehero/codehero-repo.git &&\
     mkdir -p /var/www/logs &&\
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old &&\
-    mv /etc/nginx/nginx.conf.new /etc/nginx/nginx.conf &&\
+    mv /tmp/nginx/nginx.conf /etc/nginx/nginx.conf &&\
+    mv /tmp/nginx/codehero.co /etc/nginx/sites-available/codehero.co &&\
     ln -s /etc/nginx/sites-available/codehero.co /etc/nginx/sites-enabled/codehero.co &&\
     unlink /etc/nginx/sites-enabled/default &&\
     mkdir -p /var/run/sshd &&\
