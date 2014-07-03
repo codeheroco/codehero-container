@@ -2,11 +2,11 @@
 
 set -e
 
-GIT_REPO=/home/codehero/codehero-repo.git
-VENDOR=/home/codehero
-TMP_GIT_CLONE=/home/codehero/tmp/repo
+GIT_REPO=/var/www/codehero/repo.git
+VENDOR=/var/www/codehero
+TMP_GIT_CLONE=/tmp/repo
 PUBLIC_WWW=/var/www/codehero-jekyll
-BUILD_LOG=/home/codehero/build.log
+BUILD_LOG=/var/www/logs/build.log
 
 BUNDLE="/usr/local/bin/bundle"
 
