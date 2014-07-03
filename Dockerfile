@@ -56,5 +56,6 @@ ENV LC_CTYPE en_US.UTF-8
 # Expose port 80 in the container
 EXPOSE 22
 EXPOSE 80
+EXPOSE 443
 
 CMD ["/usr/sbin/runsvdir-start"]
