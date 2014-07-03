@@ -15,8 +15,9 @@ ADD runit /tmp/runit
 ADD build-script.sh /home/codehero/build-script.sh
 ADD crontab-script.sh /home/codehero/crontab-script.sh
 
-RUN useradd codehero -s /bin/bash -m -U &&\
+RUN useradd codehero -u 1040 -s /bin/bash -m -U &&\
     usermod -a -G sudo codehero &&\
+    groupmod -g 1040 codehero &&\
     echo "codehero:qwerty" | chpasswd &&\
     echo "America/Caracas" | sudo tee /etc/timezone &&\
     sudo dpkg-reconfigure --frontend noninteractive tzdata &&\
