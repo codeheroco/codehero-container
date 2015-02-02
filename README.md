@@ -1,21 +1,32 @@
-# Codehero Container using Docker
+# Codehero server image
 
-This is the Codehero container
+Codehero server image for DigitalOcean build through [packer.io][packer]
 
-## Run the container locally
+## How to create a new image
 
-We are missing the **nginx port** and the script to auto run everything
+**note:** you need the packer binary installed in your machine in order to be
+able to build the image. You also need to create an API Token in the
+digitalocean admin panel.
 
-```bash
-$ docker run -i -t -p 2222:22 -p 80:80 -p 443:443 -v /var/www:/var/www codehero /bin/bash
-```
-
-Run the docker container in daemon mode (production mode)
+First validate that the script is correct using `packer validate`
 
 ```bash
-$ docker run -p 2222:22 -p 80:80 -p 443:443 -v /var/www:/var/www -d codehero
+$ packer validate packer.json
 ```
+
+Then export the previously generated API token as `DIGITALOCEAN_API_TOKEN` in
+your computer and then build the new image using `packer build` command.
+
+```bash
+$ export DIGITALOCEAN_API_TOKEN="your_api_token"
+$ export packer build packer.json
+```
+
+When packer finishes building the image a new "snapshot" should be created with
+the codehero name and a timestamp.
 
 ## License MIT
 
 The license is MIT
+
+[packer]: https://packer.io/
