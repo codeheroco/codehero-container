@@ -23,9 +23,9 @@ sudo apt-get install -y wget bash libyaml-dev libreadline6-dev \
                         libcurl4-openssl-dev nginx pngcrush imagemagick
 
 # install ruby version 2.1.5 using ruby-build from git
-echo 'gem: --no-document' >> /usr/local/etc/gemrc &&\
-mkdir /src && cd /src && git clone https://github.com/sstephenson/ruby-build.git &&\
-cd /src/ruby-build && ./install.sh &&\
-cd / && rm -rf /src/ruby-build && ruby-build 2.1.5 /usr/local &&\
-gem update --system &&\
+echo 'gem: --no-document' >> /usr/local/etc/gemrc
+mkdir /src && cd /src && git clone https://github.com/sstephenson/ruby-build.git
+cd /src/ruby-build && ./install.sh
+cd / && rm -rf /src/ruby-build && ruby-build 2.1.5 /usr/local
+gem update --system
 gem install bundler
