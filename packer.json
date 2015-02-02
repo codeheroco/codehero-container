@@ -14,7 +14,26 @@
   }],
 
   "provisioners": [{
+    "type": "file",
+    "source": "nginx",
+    "destination": "/tmp"
+  },
+  {
+    "type": "file",
+    "source": "build-script.sh",
+    "destination": "/tmp/build-script.sh"
+  },
+  {
+    "type": "file",
+    "source": "crontab-script.sh",
+    "destination": "/tmp/crontab-script.sh"
+  },
+  {
     "type": "shell",
     "script": "install_deps.sh"
+  },
+  {
+    "type": "shell",
+    "script": "server_config.sh"
   }]
 }
