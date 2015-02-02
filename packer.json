@@ -1,0 +1,20 @@
+{
+  "variables": {
+    "do_api_token": "{{env `DIGITALOCEAN_API_TOKEN`}}"
+  },
+
+  "builders": [{
+    "type": "digitalocean",
+    "api_token": "{{user `do_api_token`}}",
+    "size": "512mb",
+    "region": "nyc3",
+    "image": "ubuntu-14-04-x64",
+    "droplet_name": "codehero",
+    "snapshot_name": "codehero-{{timestamp}}"
+  }],
+
+  "provisioners": [{
+    "type": "shell",
+    "script": "install_deps.sh"
+  }]
+}
