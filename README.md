@@ -23,7 +23,7 @@ your computer and build the new image using `packer build` command.
 
 ```bash
 $ export DIGITALOCEAN_API_TOKEN="your_api_token"
-$ export packer build codehero-template.json
+$ packer build codehero-template.json
 ```
 
 When packer finishes building the image a new "snapshot" should be created with
