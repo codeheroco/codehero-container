@@ -22,10 +22,9 @@ NEW_HASH=$(ls -laR $GIT_REPO | md5sum)
 if [ "$NEW_HASH" != "$REPO_HASH" ]; then
   echo "--------------> Starting to build the blog"
   echo "--------------> Installing dependencies if needed"
-  $BUNDLE install --gemfile "$GIT_REPO"/Gemfile --deployment --without test --without development &&\
-  LC_ALL=en_US.UTF-8 $BUNDLE exec jekyll build --source $GIT_REPO --destination $PUBLIC_WWW &&\
-  echo "--------------> Application Deployed to $PUBLIC_WWW" &&\
-  TZ='America/Caracas' date
+  $BUNDLE install --gemfile "$GIT_REPO"/Gemfile --deployment --without test --without development
+  $BUNDLE exec jekyll build --source $GIT_REPO --destination $PUBLIC_WWW
+  echo "--------------> Application Deployed to $PUBLIC_WWW"
 
   export REPO_HASH="$NEW_HASH"
 else
