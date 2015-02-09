@@ -38,6 +38,6 @@
   },
   {
     "type": "shell",
-    "script": "build-script.sh"
+    "inline": "/bin/su - codehero -c /home/codehero/build-script.sh"
   }]
 }
