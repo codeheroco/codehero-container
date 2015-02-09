@@ -20,7 +20,7 @@ chmod +x /home/codehero/build-script.sh
 crontab -u codehero /home/codehero/crontab-script.sh
 
 # create publish directory
-mkdir /var/www/codehero-jekyll
+mkdir -p /var/www/codehero-jekyll
 
 # make codehero owner of publish directory
 chown -R codehero:codehero /var/www/codehero-jekyll
