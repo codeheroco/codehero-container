@@ -23,7 +23,7 @@ if [ "$NEW_HASH" != "$REPO_HASH" ]; then
   echo "--------------> Starting to build the blog"
   echo "--------------> Installing dependencies if needed"
   $BUNDLE install --gemfile "$GIT_REPO"/Gemfile --deployment --without test --without development
-  $BUNDLE exec jekyll build --source $GIT_REPO --destination $PUBLIC_WWW
+  BUNDLE_GEMFILE="$GIT_REPO"/Gemfile $BUNDLE exec jekyll build --source $GIT_REPO --destination $PUBLIC_WWW
   echo "--------------> Application Deployed to $PUBLIC_WWW"
 
   export REPO_HASH="$NEW_HASH"
