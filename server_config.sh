@@ -22,6 +22,9 @@ crontab -u codehero /home/codehero/crontab-script.sh
 # create publish directory
 mkdir -p /var/www/codehero-jekyll
 
+# create nginx logs directory
+mkdir -p /var/www/logs
+
 # make codehero owner of publish directory
 chown -R codehero:codehero /var/www/codehero-jekyll
 
