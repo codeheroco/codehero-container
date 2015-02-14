@@ -35,5 +35,9 @@
   {
     "type": "shell",
     "script": "server_config.sh"
+  },
+  {
+    "type": "shell",
+    "inline": "/bin/su - codehero -c /home/codehero/build-script.sh"
   }]
 }

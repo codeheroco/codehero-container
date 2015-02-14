@@ -1,20 +1,37 @@
 #! /usr/bin/env bash
 
+echo "--------------> Starting build script on `date`"
+
 set -e
 
-GIT_REPO=/var/www/codehero/repo.git
-VENDOR=/var/www/codehero
-TMP_GIT_CLONE=/tmp/repo
+REMOTE_REPO=https://github.com/codeheroco/codehero-static.git
+GIT_REPO=/home/codehero/codehero-repo
 PUBLIC_WWW=/var/www/codehero-jekyll
-BUILD_LOG=/var/www/logs/build.log
 
 BUNDLE="/usr/local/bin/bundle"
 
-cd $TMP_GIT_CLONE &&\
-  echo "--------------> Starting to build the blog" &&\
-  echo "--------------> Installing dependencies if needed" &&\
-  $BUNDLE install --path $VENDOR/vendor --deployment --without test --without development &&\
-  LC_ALL=en_US.UTF-8 $BUNDLE exec jekyll build --source $TMP_GIT_CLONE --destination $PUBLIC_WWW &&\
-echo "--------------> Application Deployed to $PUBLIC_WWW" &&\
-TZ='America/Caracas' date
+ISNEW=false
 
+if [ ! -d "$GIT_REPO" ]; then
+  echo "--------------> Cloning blog repo"
+  git clone $REMOTE_REPO $GIT_REPO
+  ISNEW=true
+fi
+
+LOCAL_REPO_HASH=$(git -C $GIT_REPO rev-parse @{0})
+REMOTE_REPO_HASH=$(git -C $GIT_REPO rev-parse @{u})
+
+if [ LOCAL_REPO_HASH != REMOTE_REPO_HASH ] || ISNEW ; then
+  echo "--------------> Pulling changes latest changes..."
+  git -C "$GIT_REPO" pull origin master
+
+  echo "--------------> Starting to build the blog"
+  echo "--------------> Installing dependencies if needed"
+  $BUNDLE install --gemfile "$GIT_REPO"/Gemfile --deployment --without test --without development
+  BUNDLE_GEMFILE="$GIT_REPO"/Gemfile $BUNDLE exec jekyll build --source $GIT_REPO --destination $PUBLIC_WWW
+  echo "--------------> Application Deployed to $PUBLIC_WWW"
+else
+  echo "--------------> Blog is up to date, doesn't need regeneration"
+fi
+
+echo "--------------> Ending build script on `date`"

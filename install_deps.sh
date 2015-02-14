@@ -22,10 +22,10 @@ sudo apt-get install -y wget bash libyaml-dev libreadline6-dev \
                         systemtap vim git tar libxml2-dev libxslt-dev \
                         libcurl4-openssl-dev nginx pngcrush imagemagick
 
-# install ruby version 2.1.5 using ruby-build from git
+# install ruby version latest 2.0.0 using ruby-build from git
 echo 'gem: --no-document' >> /usr/local/etc/gemrc
 mkdir /src && cd /src && git clone https://github.com/sstephenson/ruby-build.git
 cd /src/ruby-build && ./install.sh
-cd / && rm -rf /src/ruby-build && ruby-build 2.1.5 /usr/local
+cd / && rm -rf /src/ruby-build && ruby-build 2.0.0-p598 /usr/local
 gem update --system
 gem install bundler
