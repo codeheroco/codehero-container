@@ -8,8 +8,6 @@ PUBLIC_WWW=/var/www/codehero-jekyll
 
 BUNDLE="/usr/local/bin/bundle"
 
-LOCAL_REPO_HASH=$(git -C $GIT_REPO rev-parse @{0})
-REMOTE_REPO_HASH=$(git -C $GIT_REPO rev-parse @{u})
 ISNEW=false
 
 if [ ! -d "$GIT_REPO" ]; then
@@ -17,6 +15,9 @@ if [ ! -d "$GIT_REPO" ]; then
   git clone $REMOTE_REPO $GIT_REPO
   ISNEW=true
 fi
+
+LOCAL_REPO_HASH=$(git -C $GIT_REPO rev-parse @{0})
+REMOTE_REPO_HASH=$(git -C $GIT_REPO rev-parse @{u})
 
 if [ LOCAL_REPO_HASH != REMOTE_REPO_HASH ] || ISNEW ; then
   echo "--------------> Pulling changes latest changes..."
