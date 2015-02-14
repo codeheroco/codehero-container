@@ -25,8 +25,9 @@ mkdir -p /var/www/codehero-jekyll
 # create nginx logs directory
 mkdir -p /var/www/logs
 
-# make codehero owner of publish directory
+# make codehero owner of publish and logs directory
 chown -R codehero:codehero /var/www/codehero-jekyll
+chown -R codehero:codehero /var/www/logs
 
 # make codehero owner of its home
 chown -R codehero:codehero /home/codehero
