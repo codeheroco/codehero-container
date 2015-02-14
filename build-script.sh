@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+echo "--------------> Starting build script on `date`"
+
 set -e
 
 REMOTE_REPO=https://github.com/codeheroco/codehero-static.git
@@ -31,3 +33,5 @@ if [ LOCAL_REPO_HASH != REMOTE_REPO_HASH ] || ISNEW ; then
 else
   echo "--------------> Blog is up to date, doesn't need regeneration"
 fi
+
+echo "--------------> Ending build script on `date`"
